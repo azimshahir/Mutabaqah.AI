@@ -18,7 +18,7 @@ export default async function Home() {
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <BankRakyatLogo size="md" variant="full" />
+          <BankRakyatLogo size="md" />
           <div className="flex items-center gap-4">
             <Button asChild variant="ghost" className="text-[#0e4f8b]">
               <Link href="/login">Sign In</Link>
@@ -218,7 +218,7 @@ export default async function Home() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <BankRakyatLogo size="md" variant="full" className="mb-4" />
+              <BankRakyatLogo size="md" className="mb-4" />
               <p className="text-blue-200 text-sm">
                 Your trusted Islamic banking partner since 1954.
               </p>
