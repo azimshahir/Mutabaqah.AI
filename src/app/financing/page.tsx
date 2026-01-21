@@ -4,28 +4,19 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { FinancingApplication, FinancingStatus, ProductType } from '@/types/financing'
+import { WithdrawButton } from './withdraw-button'
 
 const statusColors: Record<FinancingStatus, string> = {
-  draft: 'bg-gray-500',
-  submitted: 'bg-blue-500',
-  t1_pending: 'bg-yellow-500',
-  t1_validated: 'bg-emerald-500',
-  t2_pending: 'bg-yellow-500',
-  t2_validated: 'bg-emerald-500',
+  pending: 'bg-yellow-500',
+  rejected: 'bg-red-500',
   approved: 'bg-green-500',
-  blocked: 'bg-red-500',
   disbursed: 'bg-purple-500',
 }
 
 const statusLabels: Record<FinancingStatus, string> = {
-  draft: 'Draft',
-  submitted: 'Submitted',
-  t1_pending: 'T1 Pending',
-  t1_validated: 'T1 Validated',
-  t2_pending: 'T2 Pending',
-  t2_validated: 'T2 Validated',
+  pending: 'Pending',
+  rejected: 'Rejected',
   approved: 'Approved',
-  blocked: 'Blocked',
   disbursed: 'Disbursed',
 }
 
@@ -72,7 +63,7 @@ export default async function FinancingPage() {
             Manage your financing applications
           </p>
         </div>
-        <Button asChild>
+        <Button asChild className="bg-[#f7941d] hover:bg-[#e8850a]">
           <Link href="/financing/new">New Application</Link>
         </Button>
       </div>
@@ -90,7 +81,7 @@ export default async function FinancingPage() {
             <p className="text-muted-foreground mb-4">
               You don&apos;t have any financing applications yet.
             </p>
-            <Button asChild>
+            <Button asChild className="bg-[#f7941d] hover:bg-[#e8850a]">
               <Link href="/financing/new">Create Your First Application</Link>
             </Button>
           </CardContent>
@@ -98,22 +89,36 @@ export default async function FinancingPage() {
       ) : (
         <div className="grid gap-4">
           {applications.map((app: FinancingApplication) => (
-            <Link key={app.id} href={`/financing/${app.id}`}>
-              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+            <div key={app.id} className="relative group">
+              <Link
+                href={`/financing/${app.id}`}
+                className="absolute inset-0 z-0"
+                aria-label={`View application ${app.application_number}`}
+              />
+              <Card className="hover:bg-muted/50 transition-colors">
                 <CardHeader className="pb-2">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <CardTitle className="text-lg">
-                      {app.application_number}
-                    </CardTitle>
-                    <Badge className={statusColors[app.status as FinancingStatus]}>
-                      {statusLabels[app.status as FinancingStatus]}
-                    </Badge>
+                    <div className="flex items-center gap-3 relative z-10 pointer-events-none">
+                      <CardTitle className="text-lg">
+                        {app.application_number}
+                      </CardTitle>
+                      <Badge className={statusColors[app.status as FinancingStatus] || 'bg-gray-500'}>
+                        {statusLabels[app.status as FinancingStatus] || app.status}
+                      </Badge>
+                    </div>
+                    {/* Withdraw button - z-20 to be above the link */}
+                    <div className="relative z-20">
+                      <WithdrawButton
+                        applicationId={app.id}
+                        applicationNumber={app.application_number}
+                      />
+                    </div>
                   </div>
                   <CardDescription>
                     {productLabels[app.product_type as ProductType]}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative z-0 pointer-events-none">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                     <div>
                       <p className="text-muted-foreground">Principal</p>
@@ -134,7 +139,7 @@ export default async function FinancingPage() {
                   </div>
                 </CardContent>
               </Card>
-            </Link>
+            </div>
           ))}
         </div>
       )}

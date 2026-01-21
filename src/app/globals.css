@@ -46,39 +46,65 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Bank Rakyat Color Scheme */
 :root {
   --radius: 0.625rem;
+
+  /* Bank Rakyat Primary Blue */
+  --br-blue: #0e4f8b;
+  --br-blue-light: #1a6eb5;
+  --br-blue-dark: #0a3d6e;
+
+  /* Bank Rakyat Accent Orange */
+  --br-orange: #f7941d;
+  --br-orange-light: #faa94d;
+  --br-orange-dark: #e8850a;
+
+  /* Core colors using Bank Rakyat palette */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+
+  /* Primary - Bank Rakyat Blue */
+  --primary: #0e4f8b;
   --primary-foreground: oklch(0.985 0 0);
+
+  /* Secondary */
   --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: #0e4f8b;
+
+  /* Muted */
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+
+  /* Accent - Bank Rakyat Orange */
+  --accent: #f7941d;
+  --accent-foreground: oklch(1 0 0);
+
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
+  --ring: #0e4f8b;
+
+  /* Chart colors */
+  --chart-1: #0e4f8b;
+  --chart-2: #f7941d;
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: #0e4f8b;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground: #0e4f8b;
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: #0e4f8b;
 }
 
 .dark {
@@ -88,31 +114,31 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: #1a6eb5;
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: #f7941d;
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
+  --ring: #1a6eb5;
+  --chart-1: #1a6eb5;
+  --chart-2: #f7941d;
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: #1a6eb5;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: #1a6eb5;
 }
 
 @layer base {
@@ -122,4 +148,19 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Islamic geometric pattern background */
+.islamic-pattern {
+  background-color: #0e4f8b;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a6eb5' fill-opacity='0.3'%3E%3Cpath d='M30 0L0 30l30 30 30-30L30 0zm0 10.61L49.39 30 30 49.39 10.61 30 30 10.61z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Bank Rakyat gradient backgrounds */
+.br-gradient {
+  background: linear-gradient(135deg, #0e4f8b 0%, #1a6eb5 100%);
+}
+
+.br-gradient-orange {
+  background: linear-gradient(135deg, #f7941d 0%, #faa94d 100%);
 }

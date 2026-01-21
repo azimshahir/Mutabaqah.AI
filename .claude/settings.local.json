@@ -7,7 +7,15 @@
       "Bash(ls:*)",
       "mcp__supabase-db__query",
       "Bash(npm run dev)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "mcp__supabase__query",
+      "Bash(dir /s /b \"C:\\\\Users\\\\anis\\\\Desktop\\\\Cursor Project\\\\mutabaqah-ai\\\\src\\\\app\\\\financing\")",
+      "Bash(git add:*)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
 }

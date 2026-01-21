@@ -51,8 +51,40 @@ export async function updateSession(request: NextRequest) {
   )
 
   if (isAuthPath && user) {
+    // Check if user is admin
+    const { data: customer } = await supabase
+      .from('customers')
+      .select('is_admin')
+      .eq('id', user.id)
+      .single()
+
     const url = request.nextUrl.clone()
-    url.pathname = '/financing'
+
+    if (customer?.is_admin) {
+      url.pathname = '/admin'
+    } else {
+      url.pathname = '/financing'
+    }
+
+    return NextResponse.redirect(url)
+  }
+
+  // Redirect from root to appropriate dashboard
+  if (request.nextUrl.pathname === '/' && user) {
+    const { data: customer } = await supabase
+      .from('customers')
+      .select('is_admin')
+      .eq('id', user.id)
+      .single()
+
+    const url = request.nextUrl.clone()
+
+    if (customer?.is_admin) {
+      url.pathname = '/admin'
+    } else {
+      url.pathname = '/financing'
+    }
+
     return NextResponse.redirect(url)
   }
 

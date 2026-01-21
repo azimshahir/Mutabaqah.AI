@@ -32,29 +32,17 @@ export default async function ApplicationDetailPage({ params }: PageProps) {
 
   const status = application.status as FinancingStatus
 
-  // Route based on status
+  // Route based on simplified 4-status system
   switch (status) {
-    case 'draft':
-      redirect(`/financing/${id}/draft`)
-    case 'submitted':
-      // Submitted means ready to sign Wakalah (Review step)
-      redirect(`/financing/${id}/review`)
-    case 't1_pending':
-      redirect(`/financing/${id}/processing/t1`)
-    case 't1_validated':
-      redirect(`/financing/${id}/validated/t1`)
-    case 't2_pending':
-      // Asset accepted, ready to liquidate
-      redirect(`/financing/${id}/processing/t2`)
-    case 't2_validated':
-      // Should result in approved usually, but if exists:
-      redirect(`/financing/${id}/validated/t2`)
+    case 'pending':
+      redirect(`/financing/${id}/pending`)
+    case 'rejected':
+      redirect(`/financing/${id}/rejected`)
     case 'approved':
     case 'disbursed':
       redirect(`/financing/${id}/approved`)
-    case 'blocked':
-      redirect(`/financing/${id}/draft`) // Or a specific error page
     default:
-      redirect(`/financing/${id}/draft`)
+      // For any legacy statuses during migration, show pending
+      redirect(`/financing/${id}/pending`)
   }
 }

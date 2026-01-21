@@ -284,6 +284,11 @@ CREATE POLICY "Users can update financing applications"
   TO authenticated
   USING (true);
 
+CREATE POLICY "Users can delete their own financing applications"
+  ON financing_applications FOR DELETE
+  TO authenticated
+  USING (customer_id = auth.uid());
+
 CREATE POLICY "Users can view all transactions"
   ON tawarruq_transactions FOR SELECT
   TO authenticated

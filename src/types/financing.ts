@@ -1,12 +1,7 @@
 export type FinancingStatus =
-  | 'draft'
-  | 'submitted'
-  | 't1_pending'
-  | 't1_validated'
-  | 't2_pending'
-  | 't2_validated'
+  | 'pending'
+  | 'rejected'
   | 'approved'
-  | 'blocked'
   | 'disbursed'
 
 export type ProductType =
