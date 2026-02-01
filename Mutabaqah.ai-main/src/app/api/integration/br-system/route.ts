@@ -364,11 +364,15 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('BR System Integration Error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : '';
     return NextResponse.json(
       {
         success: false,
         error: 'Failed to create transaction',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: errorMessage,
+        stack: process.env.NODE_ENV === 'development' ? errorStack : undefined,
+        hint: 'Check Vercel function logs for full error details'
       },
       { status: 500 }
     );

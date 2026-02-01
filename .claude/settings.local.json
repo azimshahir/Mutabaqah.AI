@@ -15,7 +15,14 @@
       "Bash(npx prisma db push:*)",
       "Bash(npx prisma generate:*)",
       "Bash(npx prisma:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: correct Prisma model names in BR System integration API\n\nChanged model names to match schema \\(snake_case with underscores\\):\n- transaction -> transactions  \n- auditEvent -> audit_events\n- certificate -> certificates\n- auditLog -> audit_logs\n- aiAuditSummary -> ai_audit_summaries\n\nAlso added required ''id'' fields using crypto.randomUUID\\(\\).\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push)",
+      "Bash(npx tsc:*)",
+      "Bash(git fetch:*)",
+      "mcp__supabase-db__query",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: improve error logging for BR System API debugging\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
