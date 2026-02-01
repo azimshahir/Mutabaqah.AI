@@ -54,3 +54,6 @@ ENV/
 
 # Claude (optional - depends on your preference)
 # .claude/
+.vercel
+nul
+

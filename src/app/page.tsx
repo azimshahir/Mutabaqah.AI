@@ -3,25 +3,26 @@
 import Image from "next/image";
 
 export default function Home() {
+  const isProd = process.env.NODE_ENV === "production";
   const projects = [
     {
       name: "BR System",
       subtitle: "Customer Portal",
-      url: "http://localhost:3001",
+      url: isProd ? "https://mutabaqah-br-system.vercel.app" : "http://localhost:3001",
       image: "/images/br-system.png",
       description: "Bank Rakyat's customer-facing Islamic financing platform. Apply for Shariah-compliant Tawarruq financing with fast approvals and competitive rates.",
     },
     {
       name: "Mutabaqah.AI",
       subtitle: "Compliance Engine",
-      url: "http://localhost:3002",
+      url: isProd ? "https://mutabaqah-ai-platform.vercel.app" : "http://localhost:3002",
       image: "/images/mutabaqah-ai.png",
       description: "AI-powered Shariah compliance monitoring system. Automate commodity trading compliance with real-time audit trails and certificate verification.",
     },
     {
       name: "Al-Marji",
       subtitle: "Research Assistant",
-      url: "http://localhost:5173",
+      url: isProd ? "https://mutabaqah-almarji.vercel.app" : "http://localhost:5173",
       image: "/images/al-marji.png",
       description: "AI-powered Shariah reference assistant. Query official regulatory documents from BNM, SC, IIFA, and IIFM instantly in English or Malay.",
     },
