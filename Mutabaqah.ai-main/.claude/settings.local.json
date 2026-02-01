@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install prisma @prisma/client next-auth@beta @auth/prisma-adapter @supabase/supabase-js mysql2 bcryptjs zod clsx tailwind-merge lucide-react date-fns class-variance-authority @radix-ui/react-slot @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-select @radix-ui/react-tabs @radix-ui/react-toast @radix-ui/react-tooltip @radix-ui/react-avatar @radix-ui/react-scroll-area @radix-ui/react-separator)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma init)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run dev)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(dir \"C:\\\\laragon\\\\bin\\\\apache\\\\*\" /b)",
+      "Bash(C:/laragon/laragon.exe reload apache)",
+      "Bash(\"C:/laragon/bin/apache/httpd-2.4.54-win64-VS16/bin/httpd.exe\":*)",
+      "Bash(\"C:/laragon/bin/apache/httpd-2.4.54-win64-VS16/bin/httpd.exe\" -M)",
+      "Bash(\"C:/laragon/bin/apache/httpd-2.4.54-win64-VS16/bin/httpd.exe\" -k restart)",
+      "Bash(tasklist:*)",
+      "Bash(npx next build:*)",
+      "Bash(copy \"C:\\\\laragon\\\\www\\\\mutabaqah.ai\\\\WhatsApp Image 2026-01-22 at 8.28.39 PM.jpeg\" \"C:\\\\laragon\\\\www\\\\mutabaqah.ai\\\\public\\\\bursa-suq-al-sila-logo.png\")",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit - Mutabaqah.ai Tawarruq Compliance System\n\nFeatures:\n- Dashboard with transaction overview and stats\n- Transaction management \\(list, create, audit timeline\\)\n- Certificate viewer with print/PDF support\n- Live monitor with Zetrix blockchain hash\n- AI Shariah audit summary\n- T0/T1/T2 audit stages \\(Wakalah, Qabd, Liquidation\\)\n- Demo login authentication\n- Responsive UI with dark sidebar and light content\n\nTech stack:\n- Next.js 14 with App Router\n- Tailwind CSS\n- Prisma ORM\n- NextAuth.js\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git config:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(npx vercel --version)",
+      "Bash(npx vercel --prod --yes)",
+      "Bash(npx vercel login)",
+      "Bash(npx tsc:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

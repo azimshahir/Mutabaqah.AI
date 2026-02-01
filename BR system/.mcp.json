@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:mutabaqah-ai@db.ymooerojxjjbqaajraor.supabase.co:5432/postgres"
+      ],
+      "env": {}
+    }
+  }
+}

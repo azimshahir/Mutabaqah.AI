@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  id                String  @id
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  users             users   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model ai_audit_summaries {
+  id              String       @id
+  transactionId   String       @unique
+  summary         String
+  complianceScore Int
+  findings        Json
+  recommendations Json
+  generatedBy     String       @default("simulated")
+  createdAt       DateTime     @default(now())
+  transactions    transactions @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+}
+
+model audit_events {
+  id            String           @id
+  transactionId String
+  stage         AuditStage
+  stageName     String
+  status        AuditEventStatus @default(PENDING)
+  timestamp     DateTime         @default(now())
+  completedAt   DateTime?
+  certificateId String?          @unique
+  metadata      Json?
+  certificates  certificates?    @relation(fields: [certificateId], references: [id])
+  transactions  transactions     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@index([stage])
+  @@index([transactionId])
+}
+
+model audit_logs {
+  id            String        @id
+  transactionId String?
+  eventType     String
+  message       String
+  severity      LogSeverity   @default(INFO)
+  timestamp     DateTime      @default(now())
+  metadata      Json?
+  transactions  transactions? @relation(fields: [transactionId], references: [id])
+
+  @@index([severity])
+  @@index([timestamp])
+  @@index([transactionId])
+}
+
+model certificates {
+  id                String          @id
+  certificateNumber String          @unique
+  type              CertificateType
+  issuedBy          String          @default("Bursa Suq As Sila")
+  issuedAt          DateTime        @default(now())
+  expiresAt         DateTime?
+  data              Json
+  audit_events      audit_events?
+}
+
+model sessions {
+  id           String   @id
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  users        users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model transactions {
+  id                    String                  @id
+  transactionId         String                  @unique
+  customerName          String
+  customerId            String
+  commodityType         CommodityType           @default(CPO)
+  amount                Decimal                 @db.Decimal(18, 2)
+  currency              String                  @default("MYR")
+  status                TransactionStatus       @default(PENDING)
+  shariahStatus         ShariahStatus           @default(PENDING_REVIEW)
+  violationCount        Int                     @default(0)
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime
+  ai_audit_summaries    ai_audit_summaries?
+  audit_events          audit_events[]
+  audit_logs            audit_logs[]
+  violation_resolutions violation_resolutions[]
+
+  @@index([createdAt])
+  @@index([customerId])
+  @@index([status])
+}
+
+model users {
+  id            String     @id
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          UserRole   @default(VIEWER)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime
+  accounts      accounts[]
+  sessions      sessions[]
+}
+
+model verification_tokens {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model violation_resolutions {
+  id              String       @id
+  transactionId   String
+  originalStage   AuditStage
+  resolutionNotes String
+  resolvedBy      String
+  resolvedAt      DateTime     @default(now())
+  aiReanalysis    Json?
+  reprocessed     Boolean      @default(false)
+  transactions    transactions @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@index([resolvedAt])
+  @@index([transactionId])
+}
+
+enum AuditEventStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum AuditStage {
+  T0
+  T1
+  T2
+}
+
+enum CertificateType {
+  WAKALAH_AGREEMENT
+  QABD_CONFIRMATION
+  LIQUIDATION_CERTIFICATE
+}
+
+enum CommodityType {
+  CPO
+  FPOL
+  FUPO
+  FGLD
+  OTHER
+}
+
+enum LogSeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+enum ShariahStatus {
+  COMPLIANT
+  NON_COMPLIANT
+  PENDING_REVIEW
+  UNDER_INVESTIGATION
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  VIOLATION
+  CANCELLED
+}
+
+enum UserRole {
+  ADMIN
+  OPERATOR
+  VIEWER
+}

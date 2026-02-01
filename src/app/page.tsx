@@ -1,258 +1,165 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
-import { BankRakyatLogo } from '@/components/logo'
-import { Shield, Clock, CheckCircle, Banknote } from 'lucide-react'
+"use client";
 
-export default async function Home() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+import Image from "next/image";
 
-  if (user) {
-    redirect('/financing')
-  }
+export default function Home() {
+  const projects = [
+    {
+      name: "BR System",
+      subtitle: "Customer Portal",
+      url: "http://localhost:3001",
+      image: "/images/br-system.png",
+      description: "Bank Rakyat's customer-facing Islamic financing platform. Apply for Shariah-compliant Tawarruq financing with fast approvals and competitive rates.",
+    },
+    {
+      name: "Mutabaqah.AI",
+      subtitle: "Compliance Engine",
+      url: "http://localhost:3002",
+      image: "/images/mutabaqah-ai.png",
+      description: "AI-powered Shariah compliance monitoring system. Automate commodity trading compliance with real-time audit trails and certificate verification.",
+    },
+    {
+      name: "Al-Marji",
+      subtitle: "Research Assistant",
+      url: "http://localhost:5173",
+      image: "/images/al-marji.png",
+      description: "AI-powered Shariah reference assistant. Query official regulatory documents from BNM, SC, IIFA, and IIFM instantly in English or Malay.",
+    },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <BankRakyatLogo size="md" />
-          <div className="flex items-center gap-4">
-            <Button asChild variant="ghost" className="text-[#0e4f8b]">
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button asChild className="bg-[#f7941d] hover:bg-[#e8850a]">
-              <Link href="/register">Get Started</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background Gradient */}
+      <div className="fixed inset-0 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
+        {/* Radial gradient overlays */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-emerald-200/40 to-transparent rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-radial from-teal-200/30 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-radial from-green-100/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
 
-      {/* Hero Section */}
-      <section className="islamic-pattern py-20 md:py-32">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center text-white">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Islamic Financing
-              <span className="text-[#f7941d]"> Made Simple</span>
+      {/* Islamic Geometric Pattern Overlay */}
+      <div
+        className="fixed inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(30deg, #0d7c5f 12%, transparent 12.5%, transparent 87%, #0d7c5f 87.5%, #0d7c5f),
+            linear-gradient(150deg, #0d7c5f 12%, transparent 12.5%, transparent 87%, #0d7c5f 87.5%, #0d7c5f),
+            linear-gradient(30deg, #0d7c5f 12%, transparent 12.5%, transparent 87%, #0d7c5f 87.5%, #0d7c5f),
+            linear-gradient(150deg, #0d7c5f 12%, transparent 12.5%, transparent 87%, #0d7c5f 87.5%, #0d7c5f),
+            linear-gradient(60deg, #10b981 25%, transparent 25.5%, transparent 75%, #10b981 75%, #10b981),
+            linear-gradient(60deg, #10b981 25%, transparent 25.5%, transparent 75%, #10b981 75%, #10b981)
+          `,
+          backgroundSize: '80px 140px',
+          backgroundPosition: '0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px'
+        }}
+      />
+
+      {/* Floating Orbs */}
+      <div className="fixed top-20 left-1/4 w-32 h-32 bg-emerald-300/20 rounded-full blur-2xl animate-float" />
+      <div className="fixed bottom-40 right-1/3 w-40 h-40 bg-teal-300/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="fixed top-1/2 right-1/4 w-24 h-24 bg-green-400/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '4s' }} />
+
+      {/* Content Container */}
+      <div className="relative z-10">
+        {/* Header Section */}
+        <header className="container mx-auto px-6 pt-8 pb-12">
+          {/* Logos */}
+          <div className="flex justify-center items-center gap-12 mb-12">
+            {/* Bank Rakyat Logo - Smaller (2x reduced) */}
+            <div className="h-16 w-64 relative drop-shadow-lg">
+              <Image
+                src="/images/bank-rakyat-logo-cropped.png"
+                alt="Bank Rakyat"
+                fill
+                className="object-contain object-center"
+                priority
+              />
+            </div>
+            {/* AI Fiqh Logo - Cropped version */}
+            <div className="h-20 w-56 relative drop-shadow-lg">
+              <Image
+                src="/images/ai-fiqh-logo-cropped.png"
+                alt="AI Fiqh"
+                fill
+                className="object-contain object-center"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Main Title */}
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-4 drop-shadow-sm">
+              Bank Rakyat AI Fiqh Hackathon in Islamic Finance 2026
             </h1>
-            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Apply for Shariah-compliant financing with Bank Rakyat.
-              Fast approvals, competitive rates, and fully transparent Tawarruq process.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                asChild
-                size="lg"
-                className="bg-[#f7941d] hover:bg-[#e8850a] text-white text-lg px-8 py-6"
-              >
-                <Link href="/register">Apply Now</Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-white text-white hover:bg-white/10 text-lg px-8 py-6"
-              >
-                <Link href="/login">Sign In</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0e4f8b] mb-4">
-              Why Choose Bank Rakyat?
+            <h2 className="text-5xl md:text-6xl font-bold mb-12 drop-shadow-md">
+              <span className="text-slate-800">Mutabaqah</span>
+              <span className="text-emerald-600">.AI</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Experience the best of Islamic banking with our comprehensive financing solutions
-            </p>
           </div>
+        </header>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Feature 1 */}
-            <div className="text-center p-6 rounded-xl border bg-gray-50 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-[#0e4f8b]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-[#0e4f8b]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#0e4f8b] mb-2">
-                100% Shariah Compliant
-              </h3>
-              <p className="text-muted-foreground">
-                All our products are certified by our Shariah Advisory Committee
-              </p>
-            </div>
+        {/* Project Cards Section */}
+        <section className="container mx-auto px-6 pb-12">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {projects.map((project) => (
+              <div key={project.name} className="flex flex-col">
+                {/* Browser Frame Image */}
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="browser-frame mb-6 block hover:shadow-2xl hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                >
+                  <div className="relative h-56">
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      fill
+                      className="object-cover object-top"
+                    />
+                  </div>
+                </a>
 
-            {/* Feature 2 */}
-            <div className="text-center p-6 rounded-xl border bg-gray-50 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-[#f7941d]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-[#f7941d]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#0e4f8b] mb-2">
-                Fast Processing
-              </h3>
-              <p className="text-muted-foreground">
-                Quick application review and approval process
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="text-center p-6 rounded-xl border bg-gray-50 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-[#0e4f8b]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Banknote className="w-8 h-8 text-[#0e4f8b]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#0e4f8b] mb-2">
-                Competitive Rates
-              </h3>
-              <p className="text-muted-foreground">
-                Attractive profit rates starting from 5% per annum
-              </p>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="text-center p-6 rounded-xl border bg-gray-50 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-[#f7941d]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-[#f7941d]" />
-              </div>
-              <h3 className="text-xl font-semibold text-[#0e4f8b] mb-2">
-                Transparent Process
-              </h3>
-              <p className="text-muted-foreground">
-                Clear documentation and full visibility of all transactions
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0e4f8b] mb-4">
-              Our Financing Products
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Choose from our range of Tawarruq-based financing solutions
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                title: 'Personal Financing-i',
-                desc: 'For personal needs, education, or emergencies',
-                amount: 'Up to RM 200,000',
-              },
-              {
-                title: 'Home Financing-i',
-                desc: 'Finance your dream home',
-                amount: 'Up to RM 1,000,000',
-              },
-              {
-                title: 'Vehicle Financing-i',
-                desc: 'Get your dream car',
-                amount: 'Up to RM 300,000',
-              },
-              {
-                title: 'Business Financing-i',
-                desc: 'Grow your business',
-                amount: 'Up to RM 500,000',
-              },
-            ].map((product) => (
-              <div
-                key={product.title}
-                className="bg-white rounded-xl border p-6 hover:shadow-lg transition-shadow"
-              >
-                <h3 className="text-lg font-semibold text-[#0e4f8b] mb-2">
-                  {product.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4">
-                  {product.desc}
-                </p>
-                <p className="text-[#f7941d] font-bold">{product.amount}</p>
+                {/* Text Content */}
+                <div className="flex-1 flex flex-col bg-white/60 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-emerald-100/50">
+                  <h3 className="text-2xl font-bold text-slate-800 mb-1">{project.name}</h3>
+                  <p className="text-emerald-700 text-sm mb-3 font-medium">{project.subtitle}</p>
+                  <p className="text-slate-700 text-sm leading-relaxed">
+                    {project.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
+        </section>
 
-          <div className="text-center mt-10">
-            <Button
-              asChild
-              size="lg"
-              className="bg-[#0e4f8b] hover:bg-[#0a3d6e]"
-            >
-              <Link href="/register">Start Your Application</Link>
-            </Button>
+        {/* Footer */}
+        <footer className="container mx-auto px-6 py-8 border-t border-emerald-200/50">
+          <div className="text-center">
+            <p className="text-sm text-slate-600 font-medium">
+              #UntukSemua | AI Fiqh Hackathon 2026
+            </p>
           </div>
-        </div>
-      </section>
+        </footer>
+      </div>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 br-gradient text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-            Join thousands of satisfied customers who have chosen Bank Rakyat
-            for their Islamic financing needs.
-          </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-[#f7941d] hover:bg-[#e8850a] text-lg px-8 py-6"
-          >
-            <Link href="/register">Create Your Account</Link>
-          </Button>
-        </div>
-      </section>
+      {/* Add custom animations in global CSS */}
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
 
-      {/* Footer */}
-      <footer className="bg-[#0a3d6e] text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <BankRakyatLogo size="md" className="mb-4" />
-              <p className="text-blue-200 text-sm">
-                Your trusted Islamic banking partner since 1954.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-blue-200 text-sm">
-                <li><Link href="/login" className="hover:text-white">Sign In</Link></li>
-                <li><Link href="/register" className="hover:text-white">Register</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Products</h4>
-              <ul className="space-y-2 text-blue-200 text-sm">
-                <li>Personal Financing-i</li>
-                <li>Home Financing-i</li>
-                <li>Vehicle Financing-i</li>
-                <li>Business Financing-i</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-2 text-blue-200 text-sm">
-                <li>1-300-80-5454</li>
-                <li>customerservice@bankrakyat.com.my</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-blue-800 mt-8 pt-8 text-center text-blue-200 text-sm">
-            <p>&copy; {new Date().getFullYear()} Bank Rakyat. All rights reserved.</p>
-            <p className="mt-1">Licensed by Bank Negara Malaysia</p>
-          </div>
-        </div>
-      </footer>
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
     </div>
-  )
+  );
 }

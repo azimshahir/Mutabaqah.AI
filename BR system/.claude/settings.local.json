@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp remove:*)",
+      "Bash(tree:*)",
+      "Bash(ls:*)",
+      "mcp__supabase-db__query",
+      "Bash(npm run dev)",
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "mcp__supabase__query",
+      "Bash(dir /s /b \"C:\\\\Users\\\\anis\\\\Desktop\\\\Cursor Project\\\\mutabaqah-ai\\\\src\\\\app\\\\financing\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
+}
