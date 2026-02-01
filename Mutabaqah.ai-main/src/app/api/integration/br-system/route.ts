@@ -38,7 +38,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
     // ========== STAGE T0: Wakalah Agreement ==========
     if (t0Event) {
       // Start T0
-      await prisma.auditEvent.update({
+      await prisma.audit_events.update({
         where: { id: t0Event.id },
         data: { status: 'IN_PROGRESS', timestamp: new Date() },
       });
@@ -46,8 +46,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       await delay(800); // Simulate processing
 
       // Create Wakalah Certificate
-      const wakalahCert = await prisma.certificate.create({
+      const wakalahCert = await prisma.certificates.create({
         data: {
+          id: crypto.randomUUID(),
           certificateNumber: generateCertificateNumber('WAKALAH'),
           type: 'WAKALAH_AGREEMENT',
           issuedBy: 'Bursa Suq As Sila',
@@ -60,7 +61,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       });
 
       // Complete T0
-      await prisma.auditEvent.update({
+      await prisma.audit_events.update({
         where: { id: t0Event.id },
         data: {
           status: 'COMPLETED',
@@ -69,8 +70,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
         },
       });
 
-      await prisma.auditLog.create({
+      await prisma.audit_logs.create({
         data: {
+          id: crypto.randomUUID(),
           transactionId,
           eventType: 'T0_COMPLETED',
           message: 'Wakalah Agreement signed and verified',
@@ -85,13 +87,13 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
     // ========== STAGE T1: Qabd (Asset Purchase) ==========
     if (t1Event) {
       // Start T1
-      await prisma.auditEvent.update({
+      await prisma.audit_events.update({
         where: { id: t1Event.id },
         data: { status: 'IN_PROGRESS', timestamp: new Date() },
       });
 
       // Update transaction status
-      await prisma.transaction.update({
+      await prisma.transactions.update({
         where: { id: transactionId },
         data: { status: 'PROCESSING' },
       });
@@ -99,8 +101,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       await delay(800); // Simulate commodity purchase
 
       // Create Qabd Certificate
-      const qabdCert = await prisma.certificate.create({
+      const qabdCert = await prisma.certificates.create({
         data: {
+          id: crypto.randomUUID(),
           certificateNumber: generateCertificateNumber('QABD'),
           type: 'QABD_CONFIRMATION',
           issuedBy: 'Bursa Suq As Sila',
@@ -113,7 +116,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       });
 
       // Complete T1
-      await prisma.auditEvent.update({
+      await prisma.audit_events.update({
         where: { id: t1Event.id },
         data: {
           status: 'COMPLETED',
@@ -122,8 +125,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
         },
       });
 
-      await prisma.auditLog.create({
+      await prisma.audit_logs.create({
         data: {
+          id: crypto.randomUUID(),
           transactionId,
           eventType: 'T1_COMPLETED',
           message: 'Qabd confirmed - Commodity ownership transferred',
@@ -138,7 +142,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
     // ========== STAGE T2: Liquidation (Murabahah) ==========
     if (t2Event) {
       // Start T2
-      await prisma.auditEvent.update({
+      await prisma.audit_events.update({
         where: { id: t2Event.id },
         data: { status: 'IN_PROGRESS', timestamp: new Date() },
       });
@@ -146,8 +150,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       await delay(800); // Simulate liquidation
 
       // Create Liquidation Certificate
-      const liqCert = await prisma.certificate.create({
+      const liqCert = await prisma.certificates.create({
         data: {
+          id: crypto.randomUUID(),
           certificateNumber: generateCertificateNumber('LIQ'),
           type: 'LIQUIDATION_CERTIFICATE',
           issuedBy: 'Bursa Suq As Sila',
@@ -160,7 +165,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       });
 
       // Complete T2
-      await prisma.auditEvent.update({
+      await prisma.audit_events.update({
         where: { id: t2Event.id },
         data: {
           status: 'COMPLETED',
@@ -170,7 +175,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       });
 
       // Complete transaction
-      await prisma.transaction.update({
+      await prisma.transactions.update({
         where: { id: transactionId },
         data: {
           status: 'COMPLETED',
@@ -178,8 +183,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
         },
       });
 
-      await prisma.auditLog.create({
+      await prisma.audit_logs.create({
         data: {
+          id: crypto.randomUUID(),
           transactionId,
           eventType: 'T2_COMPLETED',
           message: 'Tawarruq completed - All stages passed Shariah compliance',
@@ -189,8 +195,9 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
       });
 
       // Create AI Audit Summary
-      await prisma.aiAuditSummary.create({
+      await prisma.ai_audit_summaries.create({
         data: {
+          id: crypto.randomUUID(),
           transactionId,
           summary: 'All Tawarruq stages completed successfully. Transaction is fully Shariah compliant.',
           complianceScore: 100,
@@ -209,7 +216,7 @@ async function autoProcessTawarruq(transactionId: string, auditEvents: Array<{ i
   } catch (error) {
     console.error('[AUTO-PROCESS] Error:', error);
     // Mark transaction as violation if error occurs
-    await prisma.transaction.update({
+    await prisma.transactions.update({
       where: { id: transactionId },
       data: {
         status: 'VIOLATION',
@@ -255,9 +262,16 @@ export async function POST(request: NextRequest) {
     // Generate transaction ID
     const transactionId = generateTransactionId();
 
+    // Generate unique IDs
+    const txnId = crypto.randomUUID();
+    const t0Id = crypto.randomUUID();
+    const t1Id = crypto.randomUUID();
+    const t2Id = crypto.randomUUID();
+
     // Create transaction with audit events
-    const transaction = await prisma.transaction.create({
+    const transaction = await prisma.transactions.create({
       data: {
+        id: txnId,
         transactionId,
         customerName: applicant_name,
         customerId: customer_id,
@@ -267,10 +281,12 @@ export async function POST(request: NextRequest) {
         status: 'PENDING',
         shariahStatus: 'PENDING_REVIEW',
         violationCount: 0,
+        updatedAt: new Date(),
         // Create the 3 audit stages (T0, T1, T2)
-        auditEvents: {
+        audit_events: {
           create: [
             {
+              id: t0Id,
               stage: 'T0',
               stageName: 'WAKALAH_AGREEMENT',
               status: 'PENDING',
@@ -291,12 +307,14 @@ export async function POST(request: NextRequest) {
               },
             },
             {
+              id: t1Id,
               stage: 'T1',
               stageName: 'QABD',
               status: 'PENDING',
               metadata: {},
             },
             {
+              id: t2Id,
               stage: 'T2',
               stageName: 'LIQUIDATE',
               status: 'PENDING',
@@ -306,13 +324,14 @@ export async function POST(request: NextRequest) {
         },
       },
       include: {
-        auditEvents: true,
+        audit_events: true,
       },
     });
 
     // Create audit log
-    await prisma.auditLog.create({
+    await prisma.audit_logs.create({
       data: {
+        id: crypto.randomUUID(),
         transactionId: transaction.id,
         eventType: 'TRANSACTION_CREATED',
         message: `Transaction ${transactionId} created from BR System application ${application_number}`,
@@ -326,7 +345,7 @@ export async function POST(request: NextRequest) {
 
     // Auto-process all Tawarruq stages (T0 → T1 → T2) in background
     // Don't await - let it run asynchronously
-    autoProcessTawarruq(transaction.id, transaction.auditEvents).catch(err => {
+    autoProcessTawarruq(transaction.id, transaction.audit_events).catch(err => {
       console.error('[AUTO-PROCESS] Background error:', err);
     });
 
