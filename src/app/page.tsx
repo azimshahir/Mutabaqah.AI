@@ -141,6 +141,10 @@ export default function Home() {
           <div className="text-center">
             <p className="text-sm text-slate-600 font-medium">
               #UntukSemua | AI Fiqh Hackathon 2026
+              <br />
+              <span className="text-[10px] text-slate-400 opacity-50">
+                Environment: {process.env.NODE_ENV || 'unknown'} | Build: v2
+              </span>
             </p>
           </div>
         </footer>
