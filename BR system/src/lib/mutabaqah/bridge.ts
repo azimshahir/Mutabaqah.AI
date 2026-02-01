@@ -1,7 +1,9 @@
 import type { TawarruqExecutionResult, TawarruqExecutionError } from './types'
 
-// Mutabaqah.AI API URL (env var for production, localhost for dev)
-const MUTABAQAH_API_URL = process.env.NEXT_PUBLIC_MUTABAQAH_API_URL || 'http://localhost:3002/api/integration/br-system'
+// Mutabaqah.AI API URL
+const isProd = process.env.NODE_ENV === 'production'
+const BASE_URL = isProd ? 'https://mutabaqah-ai-platform.vercel.app' : 'http://localhost:3002'
+const MUTABAQAH_API_URL = process.env.NEXT_PUBLIC_MUTABAQAH_API_URL || `${BASE_URL}/api/integration/br-system`
 
 // Financing Application data type
 export type FinancingApplicationData = {
