@@ -1,7 +1,7 @@
 import type { TawarruqExecutionResult, TawarruqExecutionError } from './types'
 
-// Mutabaqah.AI API URL (localhost for development)
-const MUTABAQAH_API_URL = 'http://localhost:3002/api/integration/br-system'
+// Mutabaqah.AI API URL (env var for production, localhost for dev)
+const MUTABAQAH_API_URL = process.env.NEXT_PUBLIC_MUTABAQAH_API_URL || 'http://localhost:3002/api/integration/br-system'
 
 // Financing Application data type
 export type FinancingApplicationData = {
