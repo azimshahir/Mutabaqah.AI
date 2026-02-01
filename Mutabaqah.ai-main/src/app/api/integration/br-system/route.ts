@@ -252,7 +252,12 @@ export async function POST(request: NextRequest) {
     if (!customer_id || !applicant_name || !principal_amount) {
       return NextResponse.json(
         { success: false, error: 'Missing required fields: customer_id, applicant_name, principal_amount' },
-        { status: 400 }
+        {
+          status: 400,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          }
+        }
       );
     }
 
@@ -361,20 +366,43 @@ export async function POST(request: NextRequest) {
         createdAt: transaction.createdAt,
       },
       message: 'Transaction created successfully. Tawarruq auto-processing started.',
+    }, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      }
     });
   } catch (error) {
     console.error('BR System Integration Error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     const errorStack = error instanceof Error ? error.stack : '';
+
+    // Extract Prisma-specific error details
+    let prismaErrorCode: string | undefined;
+    let prismaErrorMeta: unknown;
+    if (error && typeof error === 'object' && 'code' in error) {
+      prismaErrorCode = (error as { code: string }).code;
+    }
+    if (error && typeof error === 'object' && 'meta' in error) {
+      prismaErrorMeta = (error as { meta: unknown }).meta;
+    }
+
     return NextResponse.json(
       {
         success: false,
         error: 'Failed to create transaction',
         details: errorMessage,
+        prismaCode: prismaErrorCode,
+        prismaMeta: prismaErrorMeta,
         stack: process.env.NODE_ENV === 'development' ? errorStack : undefined,
-        hint: 'Check Vercel function logs for full error details'
+        hint: 'Visit /api/health to check database status and table existence',
+        debugUrl: 'https://mutabaqah-ai-platform.vercel.app/api/health'
       },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      }
     );
   }
 }
